@@ -1,0 +1,25 @@
+{
+  "name": "mkflow",
+  "version": "1.0.0",
+  "description": "custom git flow in own company",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/woderwang/mkflow.git"
+  },
+  "keywords": [
+    "maycur"
+  ],
+  "author": "woderwang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/woderwang/mkflow/issues"
+  },
+  "homepage": "https://github.com/woderwang/mkflow#readme",
+  "dependencies": {
+    "simple-git": "^2.15.0"
+  }
+}
