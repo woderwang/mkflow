@@ -12,4 +12,4 @@ const git = simpleGit(SimpleGitOptions);
 // git.add('./')
 //     .commit('commit test')
 //     .push();
-git.mergeFromTo('master', 'testbranch').then(e=>{console.log(e)});
+git.mergeFromTo('testbranch', 'master').then(e => { console.log(e) });
