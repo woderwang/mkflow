@@ -8,7 +8,7 @@ let SimpleGitOptions = {
     maxConcurrentProcesses: 6,
 };
 const git = simpleGit(SimpleGitOptions);
-git.status().then(result => { console.log(result) });
+// git.status().then(result => { console.log(result) });
 // git.add('./')
 //     .commit('commit test')
 //     .push();
