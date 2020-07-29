@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 const simpleGit = require('simple-git');
+const { argv } = require('yargs');
+console.log(argv);
 let SimpleGitOptions = {
     baseDir: process.cwd(),
     binary: 'git',
