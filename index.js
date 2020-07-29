@@ -10,4 +10,5 @@ let SimpleGitOptions = {
 const git = simpleGit(SimpleGitOptions);
 // git.status().then(result => { console.log(result) });
 git.add('./')
-    .commit('commit test');
+    .commit('commit test')
+    .push();
