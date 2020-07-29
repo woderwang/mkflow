@@ -9,6 +9,7 @@ let SimpleGitOptions = {
 };
 const git = simpleGit(SimpleGitOptions);
 // git.status().then(result => { console.log(result) });
-git.add('./')
-    .commit('commit test')
-    .push();
+// git.add('./')
+//     .commit('commit test')
+//     .push();
+git.mergeFromTo('master', 'testbranch');
