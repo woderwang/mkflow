@@ -13,4 +13,4 @@ const git = simpleGit(SimpleGitOptions);
 //     .commit('commit test')
 //     .push();
 // git.merge({ from: 'master' }).then(e => { console.log(e) });
-git.merge(['master']);
+git.merge(['master']).then(e=>{console.log(e)});
