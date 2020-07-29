@@ -12,4 +12,5 @@ git.status().then(result => { console.log(result) });
 // git.add('./')
 //     .commit('commit test')
 //     .push();
-git.merge({ from: 'master' }).then(e => { console.log(e) });
+// git.merge({ from: 'master' }).then(e => { console.log(e) });
+git.merge(['master']);
