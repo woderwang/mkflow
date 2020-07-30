@@ -39,7 +39,7 @@ class Feature {
                     let stackContent = JSON.stringify(err.stack);
                     let atIndex = stackContent.indexOf(` at `);
                     stackContent = stackContent.substring(1, atIndex);
-                    stackContent = stackContent.repalce('/\n/\n', '');
+                    stackContent = stackContent.replace('/\n/\n', '');
                     console.log(stackContent);
                 }
             })
