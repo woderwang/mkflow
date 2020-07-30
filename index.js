@@ -58,8 +58,6 @@ class Feature {
         } catch (err) {
             console.log(err);
         }
-
-
     }
     /* 罗列相关的flow分支 */
     listBranch = () => {
@@ -78,6 +76,7 @@ class Feature {
             }
         })
     }
+    /* 判断branch是否存在 */
     branchExist = (branchName) => {
         return git.branch(['-l']).then(r => {
             const { all } = r;
@@ -87,6 +86,22 @@ class Feature {
             })
             return result;
         })
+    }
+    /* 移除branch */
+    removeBranch = (branchName) => {
+        return new Promise((resolve, reject) => {
+            let result = {};
+            this.branchExist(branchName).then(r => {
+                if (!r) {
+                    reject();
+                } else {
+                    git.branch(['-d', branchName + 'test']).then(e => {
+                        console.log(e);
+                    })
+                }
+            })
+        });
+
     }
 };
 let featureFlow = new Feature();
