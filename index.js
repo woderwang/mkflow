@@ -24,6 +24,11 @@ const validActionNames = ['start', 'finish'];
 // git.merge(['master']).then(e => { console.log(e) });
 /* ******* */
 /* demo block end */
+
+process.on('uncaughtException', function (err) {
+    console.error(err);
+    console.log("Node NOT Exiting...");
+});
 class Feature {
     constructor(props) {
 
