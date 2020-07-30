@@ -38,6 +38,8 @@ class Feature {
             console.log('start feature');
             git.checkout(['-b', flowBranchName]).then(e => {
                 console.log('result', e);
+            },(err)=>{
+                console.log(err);
             })
         } catch (error) {
             // console.log(error);
