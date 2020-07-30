@@ -38,8 +38,8 @@ class Feature {
                 if (err.stack) {
                     let stackContent = JSON.stringify(err.stack);
                     let atIndex = stackContent.indexOf(` at `);
-                    stackContent = stackContent.substring(1, atIndex);
-                    stackContent = stackContent.replace('/\n/\n', '');
+                    stackContent = stackContent.substring(1, atIndex - 4);
+                    // stackContent = stackContent.replace('/\n/\n', '');
                     console.log(stackContent);
                 }
             })
