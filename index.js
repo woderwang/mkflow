@@ -196,7 +196,7 @@ function runAction() {
             //action name
             actionName = validActionNames.includes(v) ? v : actionName;
         } else if (i === 2) {
-            flowBranchName = `${flowName}-${v}`;
+            flowBranchName = v;
         }
     });
     if (!flowInstance) return;
