@@ -51,6 +51,7 @@ class Feature {
             return;
         }
         let ckDevResult = await git.checkout(['develop']);
+        console.log(ckDevResult);
 
     }
     /* 罗列相关的flow分支 */
