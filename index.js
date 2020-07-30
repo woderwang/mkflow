@@ -2,7 +2,9 @@
 const simpleGit = require('simple-git');
 const { argv } = require('yargs');
 const colors = require('colors');
-console.log(colors.bgGrey('********mkflow version:1.0********'))
+
+const starStick = '********';
+console.log(colors.bgGrey(`${starStick}mkflow version:1.0${starStick}`));
 // console.log(argv);
 let SimpleGitOptions = {
     baseDir: process.cwd(),
@@ -56,7 +58,16 @@ class Feature {
             let rmResult = await git.branch(['-d', flowBranchName]);
 
         } catch (err) {
-            console.log(err);
+            if (err.git) {
+                const { merges, result } = err.git;
+                if (merge.length > 0) {
+                    console.log(colors.red(result));
+                    console.log(colors.yellow(`${starStick}合并存在冲突${starStick}`));
+                    merges.forEach(v => {
+                        console.log(colors.blue(v));
+                    });
+                }
+            }
         }
     }
     /* 罗列相关的flow分支 */
