@@ -34,7 +34,7 @@ class Feature {
                 console.log('result', e);
             })
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
     finish = () => {
