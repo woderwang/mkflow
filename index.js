@@ -31,7 +31,7 @@ class Feature {
     start = (flowBranchName) => {
         try {
             git.checkout(['-b', flowBranchName]).then(e => {
-                console.log(e);
+                console.log('result', e);
             })
         } catch (error) {
             console.log(e);
