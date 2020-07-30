@@ -29,9 +29,13 @@ class Feature {
 
     }
     start = (flowBranchName) => {
-        git.checkout(['-b', flowBranchName]).then(e => {
+        try {
+            git.checkout(['-b', flowBranchName]).then(e => {
+                console.log(e);
+            })
+        } catch (error) {
             console.log(e);
-        });
+        }
     }
     finish = () => {
 
