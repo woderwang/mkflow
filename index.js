@@ -53,7 +53,7 @@ class Feature {
             }
             let ckDevResult = await git.checkout(['develop']);
             let finishResut = await git.merge([flowBranchName]);
-            let rmResult = await git.branch(['-d', branchName + 'test']);
+            let rmResult = await git.branch(['-d', flowBranchName]);
 
         } catch (err) {
             console.log(err);
