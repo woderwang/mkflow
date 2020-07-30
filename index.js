@@ -25,17 +25,13 @@ const validActionNames = ['start', 'finish'];
 /* ******* */
 /* demo block end */
 
-process.on('uncaughtException', function (err) {
-    console.error(err);
-    console.log("Node NOT Exiting...");
-});
+
 class Feature {
     constructor(props) {
 
     }
     start = (flowBranchName) => {
         try {
-            console.log('start feature');
             git.checkout(['-b', flowBranchName]).then(e => {
                 console.log('result', e);
             }, (err) => {
