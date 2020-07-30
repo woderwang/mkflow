@@ -24,6 +24,7 @@ const validActionNames = ['start', 'finish'];
 //     .push();
 // git.merge({ from: 'master' }).then(e => { console.log(e) });
 // git.merge(['master']).then(e => { console.log(e) });
+// git.branch().then(e => { console.log(e) });
 /* ******* */
 /* demo block end */
 
@@ -55,9 +56,13 @@ class Feature {
             }
             let ckDevResult = await git.checkout(['develop']);
             let finishResut = await git.merge([flowBranchName]);
-            let rmResult = await git.branch(['-d', flowBranchName]);
-            console.log(colors.bgCyan(`${flowBranchName} has been deleted`));
-
+            let rmResult = await git.branch(['-d', flowBranchName]);//remove local branch
+            console.log(colors.bgCyan(`local branch ${flowBranchName} has been deleted`));
+            let remoteIsExist = await this.branchExist(`origin/${flowBranchName}`);
+            if (remoteIsExist) {
+                let rmRemoteBranchResult = await git.push(['origin', '--delete', flowBranchName]);
+                console.log(colors.bgCyan(`remote branch ${flowBranchName} has been deleted`));
+            }
         } catch (err) {
             if (err.git) {
                 const { merges, result } = err.git;
@@ -89,8 +94,8 @@ class Feature {
         })
     }
     /* 判断branch是否存在 */
-    branchExist = (branchName) => {
-        return git.branch(['-l']).then(r => {
+    branchExist = (branchName, isLocal = true) => {
+        return git.branch([isLocal ? '-l' : '-r']).then(r => {
             const { all } = r;
             let result = false;
             all.forEach(name => {
@@ -121,8 +126,9 @@ let featureFlow = new Feature();
 //     console.log(colors.red(r));
 // });
 
-
+/* 主要代码执行 */
 runAction();
+
 function runAction() {
     const { _: actions } = argv;
     let flowName, actionName, flowBranchName, flowInstance;
