@@ -14,15 +14,13 @@ let SimpleGitOptions = {
 const git = simpleGit(SimpleGitOptions);
 const mkflowSetting = {
     featurePrefix: 'feature-',
+    releasePrefix: 'release-',
     hotfixPrefix: 'hotfix-',
     develop: {
         branch: 'develop',
     },
     preStable: {
         branch: 'uat',
-    },
-    release: {
-        branch: 'sit',
     },
     stable: {
         branch: 'master',
@@ -71,7 +69,7 @@ class Flow {
         this.finishBranchs = finishBranchs;
     }
     start = (name) => {
-        if (['release', 'preStable'].includes(this.flowName)) {
+        if (['preStable'].includes(this.flowName)) {
             console.log(colors.yellow(`${this.flowName} without start`));
             return;
         }
@@ -90,8 +88,13 @@ class Flow {
         })
     }
     finish = async (name) => {
+        let flowBranchName = '';
+        if (['preStable'].includes(this.flowName)) {
+            flowBranchName = mkflowSetting[this.flowName].branch;
+        } else {
+            flowBranchName = `${this.flowPrefix}${name}`;
+        }
         try {
-            let flowBranchName = `${this.flowPrefix}${name}`;
             /* 检查分支是否存在 */
             let isExist = await this.branchExist(flowBranchName);
             if (!isExist) {
@@ -104,7 +107,7 @@ class Flow {
                 await git.merge([flowBranchName]);
             })
             /* release,preStable无需移除分支，因为长期存在 */
-            if (['release', 'preStable'].includes(this.flowName)) return;
+            if (['release'].includes(this.flowName)) return;
             await git.branch(['-d', flowBranchName]);//remove local branch
             console.log(colors.bgCyan(`local branch ${flowBranchName} has been deleted`));
             let remoteIsExist = await this.branchExist(`origin/${flowBranchName}`, false);
@@ -209,30 +212,51 @@ function runAction() {
     });
     if (!flowInstance) return;
     /* 没有动作的flow执行list相关flow的分支 */
-    if (flowName && !actionName) {
-        flowInstance.listBranch();
-    }
-    if (flowName && actionName) {
-        if (!flowBranchName) {
-            console.log(colors.red('请定义分支名称'));
-            return;
+    if (['feature', 'hotfix'].includes(flowName)) {
+        if (flowName && !actionName) {
+            flowInstance.listBranch();
         }
-        detectCommitStatus().then(r => {
-            if (r) {
-                switch (actionName) {
-                    case 'start':
-                        flowInstance.start(flowBranchName);
-                        break;
-                    case 'finish':
-                        flowInstance.finish(flowBranchName);
-                        break;
-                    default:
-                        break;
-                }
+        if (flowName && actionName) {
+            if (!flowBranchName) {
+                console.log(colors.red('请定义分支名称'));
+                return;
             }
-        })
+            detectCommitStatus().then(r => {
+                if (r) {
+                    switch (actionName) {
+                        case 'start':
+                            flowInstance.start(flowBranchName);
+                            break;
+                        case 'finish':
+                            flowInstance.finish(flowBranchName);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            })
 
+        }
+    } else {
+        if (flowName && actionName) {
+            detectCommitStatus().then(r => {
+                if (r) {
+                    switch (actionName) {
+                        case 'start':
+                            flowInstance.start(flowBranchName);
+                            break;
+                        case 'finish':
+                            flowInstance.finish();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            })
+
+        }
     }
+
 }
 
 
