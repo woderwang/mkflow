@@ -39,7 +39,7 @@ class Feature {
             git.checkout(['-b', flowBranchName]).then(e => {
                 console.log('result', e);
             },(err)=>{
-                console.log(typeof err);
+                console.log(Object.keys(err));
             })
         } catch (error) {
             // console.log(error);
