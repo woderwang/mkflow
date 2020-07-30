@@ -60,7 +60,7 @@ class Feature {
         } catch (err) {
             if (err.git) {
                 const { merges, result } = err.git;
-                if (merge.length > 0) {
+                if (merges.length > 0) {
                     console.log(colors.red(result));
                     console.log(colors.yellow(`${starStick}合并存在冲突${starStick}`));
                     merges.forEach(v => {
