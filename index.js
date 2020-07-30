@@ -12,8 +12,43 @@ let SimpleGitOptions = {
     maxConcurrentProcesses: 6,
 };
 const git = simpleGit(SimpleGitOptions);
-const validFlowNames = ['feature', 'release', 'preprod', 'hotfix'];
+const mkflowSetting = {
+    featurePrefix: 'feature-',
+    releasePrefix: 'release-',
+    hotfixPrefix: 'hotfix-',
+    develop: {
+        branch: 'develop',
+    },
+    preStable: {
+        branch: 'uat',
+    },
+    release: {
+        branch: 'sit',
+    },
+    stable: {
+        branch: 'master',
+    }
+}
+const validFlowNames = ['feature', 'release', 'preStable', 'hotfix'];
 const validActionNames = ['start', 'finish'];
+const flowConfig = {
+    feature: {
+        baseBranch: 'develop',
+        finishBranchs: [mkflowSetting.develop.branch],
+    },
+    release: {
+        baseBranch: 'develop',
+        finishBranchs: [mkflowSetting.develop.branch, mkflowSetting.preStable.branch],
+    },
+    preStable: {
+        finishBranchs: [mkflowSetting.develop.branch, mkflowSetting.stable.branch],
+    },
+    hotfix: {
+        baseBranch: 'master',
+        finishBranchs: [mkflowSetting.develop.branch, mkflowSetting.preStable.branch, mkflowSetting.stable.branch],
+    }
+}
+}
 /* demo block */
 /* ******* */
 // git.branch(['-l']).then(e => { console.log(e) });
@@ -31,10 +66,15 @@ const validActionNames = ['start', 'finish'];
 
 class Feature {
     constructor(props) {
-
+        const { prefix, flowName, baseBranch, finishBranchs } = props;
+        this.flowName = flowName;
+        this.flowPrefix = prefix;
+        this.baseBranch = baseBranch;
+        this.finishBranchs = finishBranchs;
     }
-    start = (flowBranchName) => {
-        git.checkout(['-b', flowBranchName, 'develop']).then(e => {
+    start = (name) => {
+        let flowBranchName = `${this.flowPrefix}${name}`;
+        git.checkout(['-b', flowBranchName, this.baseBranch]).then(e => {
             console.log(colors.green(`${flowBranchName} has created successful`));
         }, (err) => {
             if (err.stack) {
@@ -47,16 +87,23 @@ class Feature {
             }
         })
     }
-    finish = async (flowBranchName) => {
+    finish = async (name) => {
         try {
+            let flowBranchName = `${this.flowPrefix}${name}`;
+            /* 检查分支是否存在 */
             let isExist = await this.branchExist(flowBranchName);
             if (!isExist) {
                 consoe.log(colors.yellow(`${flowBranchName} is not exist`));
                 return;
             }
-            let ckDevResult = await git.checkout(['develop']);
-            let finishResut = await git.merge([flowBranchName]);
-            let rmResult = await git.branch(['-d', flowBranchName]);//remove local branch
+            /* 切换到finish的对象分支 */
+            await asyncForEach(this.finishBranchs, async (targetBranch, index) => {
+                await git.checkout([targetBranch]);
+                await git.merge([flowBranchName]);
+            })
+            // await git.checkout(['develop']);
+            // await git.merge([flowBranchName]);
+            await git.branch(['-d', flowBranchName]);//remove local branch
             console.log(colors.bgCyan(`local branch ${flowBranchName} has been deleted`));
             let remoteIsExist = await this.branchExist(`origin/${flowBranchName}`, false);
             if (remoteIsExist) {
@@ -121,7 +168,7 @@ class Feature {
 
     }
 };
-let featureFlow = new Feature();
+let featureFlow = new Feature({ prefix: mkflowSetting.featurePrefix, flowName: 'feature', baseBranch: flowConfig['feature'].baseBranch, finishBranchs: flowConfig['feature'].finishBranchs });
 // detectCommitStatus().then(r => {
 //     console.log(colors.red(r));
 // });
@@ -199,41 +246,9 @@ function detectCommitStatus() {
     });
 }
 
-/* feature */
-
-/* sit */
-class sit {
-    constructor(props) {
-
+async function asyncForEach(array = [], callback) {
+    if (!array) return;
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array);
     }
-    start = () => {
-
-    }
-    finish = () => {
-
-    }
-};
-
-// class uat {
-//     constructor(props) {
-
-//     }
-//     start = () => {
-
-//     }
-//     finish = () => {
-
-//     }
-// };
-
-// class hotfix {
-//     constructor(props) {
-
-//     }
-//     start = () => {
-
-//     }
-//     finish = () => {
-
-//     }
-// };
+}
