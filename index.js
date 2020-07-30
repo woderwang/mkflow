@@ -44,7 +44,13 @@ class Feature {
             }
         })
     }
-    finish = () => {
+    finish = async (flowBranchName) => {
+        let isExist = await this.branchExist(flowBranchName);
+        if (!isExist) {
+            consoe.log(colors.yellow(`${flowBranchName} is not exist`));
+            return;
+        }
+        let ckDevResult = await git.checkout(['develop']);
 
     }
     /* 罗列相关的flow分支 */
@@ -62,6 +68,16 @@ class Feature {
             if (branchs.length === 0) {
                 console.log(colors.brightBlue('不存在feature相关的分支'));
             }
+        })
+    }
+    branchExist = (branchName) => {
+        return git.branch(['-l']).then(r => {
+            const { all } = r;
+            let result = false;
+            all.forEach(name => {
+                if (name === branchName) result = true;
+            })
+            return result;
         })
     }
 };
@@ -112,6 +128,7 @@ function runAction() {
                         flowInstance.start(flowBranchName);
                         break;
                     case 'finish':
+                        flowInstance.finish(flowBranchName);
                         break;
                     default:
                         break;
