@@ -38,9 +38,10 @@ class Feature {
                 if (err.stack) {
                     let stackContent = JSON.stringify(err.stack);
                     let atIndex = stackContent.indexOf(` at `);
-                    stackContent = stackContent.substring(1, atIndex - 7);
-                    // stackContent = stackContent.replace('/\n/\n', '');
-                    console.log(stackContent);
+                    if (atIndex > -1) {
+                        stackContent = stackContent.substring(1, atIndex - 7);
+                    }
+                    console.log(colors.red(stackContent));
                 }
             })
         } catch (error) {
