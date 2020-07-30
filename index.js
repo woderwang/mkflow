@@ -58,7 +58,7 @@ class Feature {
             let finishResut = await git.merge([flowBranchName]);
             let rmResult = await git.branch(['-d', flowBranchName]);//remove local branch
             console.log(colors.bgCyan(`local branch ${flowBranchName} has been deleted`));
-            let remoteIsExist = await this.branchExist(`origin/${flowBranchName}`);
+            let remoteIsExist = await this.branchExist(`origin/${flowBranchName}`, false);
             if (remoteIsExist) {
                 let rmRemoteBranchResult = await git.push(['origin', '--delete', flowBranchName]);
                 console.log(colors.bgCyan(`remote branch ${flowBranchName} has been deleted`));
