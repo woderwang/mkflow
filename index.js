@@ -37,8 +37,7 @@ class Feature {
             }, (err) => {
                 if (err.stack) {
                     let stackContent = JSON.stringify(err.stack);
-                    stackContent = stackContent.replaceAll('\n', '');
-                    let atIndex = stackContent.indexOf(' at ');
+                    let atIndex = stackContent.indexOf(`\n\n`);
                     console.log(stackContent.substring(1, atIndex));
                 }
             })
