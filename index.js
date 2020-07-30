@@ -31,22 +31,18 @@ class Feature {
 
     }
     start = (flowBranchName) => {
-        try {
-            git.checkout(['-b', flowBranchName]).then(e => {
-                console.log('result', e);
-            }, (err) => {
-                if (err.stack) {
-                    let stackContent = JSON.stringify(err.stack);
-                    let atIndex = stackContent.indexOf('.');
-                    if (atIndex > -1) {
-                        stackContent = stackContent.substring(1, atIndex);
-                    }
-                    console.log(colors.red(stackContent));
+        git.checkout(['-b', flowBranchName]).then(e => {
+            console.log(colors.green(`${flowBranchName} has created successful`));
+        }, (err) => {
+            if (err.stack) {
+                let stackContent = JSON.stringify(err.stack);
+                let atIndex = stackContent.indexOf('.');
+                if (atIndex > -1) {
+                    stackContent = stackContent.substring(1, atIndex);
                 }
-            })
-        } catch (error) {
-            // console.log(error);
-        }
+                console.log(colors.red(stackContent));
+            }
+        })
     }
     finish = () => {
 
