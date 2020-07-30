@@ -47,8 +47,7 @@ const flowConfig = {
         baseBranch: 'master',
         finishBranchs: [mkflowSetting.develop.branch, mkflowSetting.preStable.branch, mkflowSetting.stable.branch],
     }
-}
-}
+};
 /* demo block */
 /* ******* */
 // git.branch(['-l']).then(e => { console.log(e) });
