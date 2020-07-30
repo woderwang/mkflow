@@ -45,13 +45,20 @@ class Feature {
         })
     }
     finish = async (flowBranchName) => {
-        let isExist = await this.branchExist(flowBranchName);
-        if (!isExist) {
-            consoe.log(colors.yellow(`${flowBranchName} is not exist`));
-            return;
+        try {
+            let isExist = await this.branchExist(flowBranchName);
+            if (!isExist) {
+                consoe.log(colors.yellow(`${flowBranchName} is not exist`));
+                return;
+            }
+            let ckDevResult = await git.checkout(['develop']);
+            let finishResut = await git.merge([flowBranchName]);
+            console.log(finishResut);
+
+        } catch (err) {
+            console.log(err);
         }
-        let ckDevResult = await git.checkout(['develop']);
-        console.log(ckDevResult);
+
 
     }
     /* 罗列相关的flow分支 */
