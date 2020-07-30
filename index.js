@@ -14,7 +14,6 @@ let SimpleGitOptions = {
 const git = simpleGit(SimpleGitOptions);
 const mkflowSetting = {
     featurePrefix: 'feature-',
-    releasePrefix: 'release-',
     hotfixPrefix: 'hotfix-',
     develop: {
         branch: 'develop',
@@ -63,7 +62,7 @@ const flowConfig = {
 /* demo block end */
 
 
-class Feature {
+class Flow {
     constructor(props) {
         const { prefix, flowName, baseBranch, finishBranchs } = props;
         this.flowName = flowName;
@@ -100,14 +99,15 @@ class Feature {
                 await git.checkout([targetBranch]);
                 await git.merge([flowBranchName]);
             })
-            // await git.checkout(['develop']);
-            // await git.merge([flowBranchName]);
+            /* release,preStable无需移除分支，因为长期存在 */
+            if (['release', 'preStable'].includes(this.flowName)) return;
             await git.branch(['-d', flowBranchName]);//remove local branch
             console.log(colors.bgCyan(`local branch ${flowBranchName} has been deleted`));
             let remoteIsExist = await this.branchExist(`origin/${flowBranchName}`, false);
             if (remoteIsExist) {
+                console.log(colors.yellow(`remote branch ${flowBranchName} is removing...`));
                 let rmRemoteBranchResult = await git.push(['origin', '--delete', flowBranchName]);
-                console.log(colors.bgCyan(`remote branch ${flowBranchName} has been deleted`));
+                console.log(colors.bgCyan(`remove remote branch ${flowBranchName} successful`));
             }
         } catch (err) {
             if (err.git) {
@@ -167,7 +167,11 @@ class Feature {
 
     }
 };
-let featureFlow = new Feature({ prefix: mkflowSetting.featurePrefix, flowName: 'feature', baseBranch: flowConfig['feature'].baseBranch, finishBranchs: flowConfig['feature'].finishBranchs });
+let featureFlow = new Flow({ prefix: mkflowSetting.featurePrefix, flowName: 'feature', baseBranch: flowConfig['feature'].baseBranch, finishBranchs: flowConfig['feature'].finishBranchs });
+let releaseFlow = new Flow({ flowName: 'release', baseBranch: flowConfig['release'].baseBranch, finishBranchs: flowConfig['release'].finishBranchs });
+let preStableFlow = new Flow({ flowName: 'preStable', baseBranch: flowConfig['preStable'].baseBranch, finishBranchs: flowConfig['preStable'].finishBranchs });
+let hotfixFlow = new Flow({ prefix: mkflowSetting.featurePrefix, flowName: 'hotfix', baseBranch: flowConfig['hotfix'].baseBranch, finishBranchs: flowConfig['hotfix'].finishBranchs });
+
 // detectCommitStatus().then(r => {
 //     console.log(colors.red(r));
 // });
@@ -187,6 +191,7 @@ function runAction() {
                     flowInstance = featureFlow;
                     break;
                 case 'release':
+                    flowInstance = releaseFlow;
                     break;
                 default:
                     break;
