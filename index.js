@@ -31,7 +31,7 @@ class Feature {
 
     }
     start = (flowBranchName) => {
-        git.checkout(['-b', flowBranchName]).then(e => {
+        git.checkout(['-b', flowBranchName, 'develop']).then(e => {
             console.log(colors.green(`${flowBranchName} has created successful`));
         }, (err) => {
             if (err.stack) {
