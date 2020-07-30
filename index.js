@@ -71,6 +71,10 @@ class Flow {
         this.finishBranchs = finishBranchs;
     }
     start = (name) => {
+        if (['release', 'preStable'].includes(this.flowName)) {
+            console.log(colors.yellow(`${this.flowName} without start`));
+            return;
+        }
         let flowBranchName = `${this.flowPrefix}${name}`;
         git.checkout(['-b', flowBranchName, this.baseBranch]).then(e => {
             console.log(colors.green(`${flowBranchName} has created successful`));
