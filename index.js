@@ -35,7 +35,11 @@ class Feature {
             git.checkout(['-b', flowBranchName]).then(e => {
                 console.log('result', e);
             }, (err) => {
-                console.log(JSON.stringify(err.stack));
+                if (err.stack) {
+                    let stackContent = JSON.stringify(err.stack);
+                    let atIndex = stackContent.findIndex(' at ');
+                    console.log(atIndex);
+                }
             })
         } catch (error) {
             // console.log(error);
