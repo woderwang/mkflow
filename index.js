@@ -56,6 +56,7 @@ class Feature {
             let ckDevResult = await git.checkout(['develop']);
             let finishResut = await git.merge([flowBranchName]);
             let rmResult = await git.branch(['-d', flowBranchName]);
+            console.log(colors.bgCyan(`${flowBranchName} has been deleted`));
 
         } catch (err) {
             if (err.git) {
