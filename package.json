@@ -25,5 +25,8 @@
   },
   "devDependencies": {
     "colors": "^1.4.0"
+  },
+  "bin": {
+    "mkflow": "./bin/index.js"
   }
 }
