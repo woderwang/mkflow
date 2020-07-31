@@ -206,7 +206,7 @@ function runAction() {
                     flowInstance = preStableFlow;
                     break;
                 case 'hotfix':
-                    flowInstance = hotfixFlows;
+                    flowInstance = hotfixFlow;
                     break;
                 default:
                     break;
