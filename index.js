@@ -2,7 +2,8 @@
 const simpleGit = require('simple-git');
 const { argv } = require('yargs');
 const colors = require('colors');
-
+const validFlowNames = ['feature', 'release', 'preStable', 'hotfix'];
+const validActionNames = ['start', 'finish'];
 const starStick = '********';
 console.log(colors.bgGrey(`${starStick}mkflow version:1.0${starStick}`));
 // console.log(argv);
@@ -26,8 +27,7 @@ const mkflowSetting = {
         branch: 'master',
     }
 }
-const validFlowNames = ['feature', 'release', 'preStable', 'hotfix'];
-const validActionNames = ['start', 'finish'];
+
 const flowConfig = {
     feature: {
         baseBranch: 'develop',
@@ -106,8 +106,8 @@ class Flow {
                 await git.checkout([targetBranch]);
                 await git.merge([flowBranchName]);
             })
-            /* release,preStable无需移除分支，因为长期存在 */
-            if (['release'].includes(this.flowName)) return;
+            /* preStable无需移除分支，因为长期存在 */
+            if (['preStable'].includes(this.flowName)) return;
             await git.branch(['-d', flowBranchName]);//remove local branch
             console.log(colors.bgCyan(`local branch ${flowBranchName} has been deleted`));
             let remoteIsExist = await this.branchExist(`origin/${flowBranchName}`, false);
