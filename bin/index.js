@@ -181,16 +181,13 @@ let releaseFlow = new Flow({ prefix: mkflowSetting.releasePrefix, flowName: 'rel
 let preStableFlow = new Flow({ flowName: 'preStable', baseBranch: flowConfig['preStable'].baseBranch, finishBranchs: flowConfig['preStable'].finishBranchs });
 let hotfixFlow = new Flow({ prefix: mkflowSetting.hotfixPrefix, flowName: 'hotfix', baseBranch: flowConfig['hotfix'].baseBranch, finishBranchs: flowConfig['hotfix'].finishBranchs });
 
-// detectCommitStatus().then(r => {
-//     console.log(colors.red(r));
-// });
-
 /* 主要代码执行 */
 runAction();
 
 function runAction() {
     const { _: actions } = argv;
     let flowName, actionName, flowBranchName, flowInstance;
+    if (actions.length === 0) { readme(); return };
     actions.forEach((v, i) => {
         if (i === 0) {
             //flow name
@@ -291,4 +288,15 @@ async function asyncForEach(array = [], callback) {
     for (let index = 0; index < array.length; index++) {
         await callback(array[index], index, array);
     }
+}
+
+function readme() {
+    console.log(colors.yellow(`${starStick}maycur work flow${starStick}`));
+    console.log(colors.blue(`feature start <name>  :  创建开发分支`));
+    console.log(colors.blue(`feature finish <name> :  完成开发分支`));
+    console.log(colors.blue(`release start <name>  :  完成测试分支`));
+    console.log(colors.blue(`release finish <name> :  完成测试分支`));
+    console.log(colors.blue(`preStable finish      :  完成预生产分支,分支不删除`));
+    console.log(colors.blue(`hotfix start <name>   :  完成热修复分支`));
+    console.log(colors.blue(`hotfix finish <name>  :  完成热修复分支`));
 }
