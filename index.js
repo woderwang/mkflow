@@ -105,6 +105,7 @@ class Flow {
             await asyncForEach(this.finishBranchs, async (targetBranch, index) => {
                 await git.checkout([targetBranch]);
                 await git.merge([flowBranchName]);
+                console.log(colors.green(`branch:${targetBranch} merge successful`));
             })
             /* preStable无需移除分支，因为长期存在 */
             if (['preStable'].includes(this.flowName)) return;
