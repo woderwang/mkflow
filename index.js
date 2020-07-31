@@ -202,6 +202,12 @@ function runAction() {
                 case 'release':
                     flowInstance = releaseFlow;
                     break;
+                case 'preStable':
+                    flowInstance = preStableFlow;
+                    break;
+                case 'hotfix':
+                    flowInstance = hotfixFlows;
+                    break;
                 default:
                     break;
             }
