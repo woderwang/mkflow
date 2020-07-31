@@ -175,9 +175,9 @@ class Flow {
     }
 };
 let featureFlow = new Flow({ prefix: mkflowSetting.featurePrefix, flowName: 'feature', baseBranch: flowConfig['feature'].baseBranch, finishBranchs: flowConfig['feature'].finishBranchs });
-let releaseFlow = new Flow({ flowName: 'release', baseBranch: flowConfig['release'].baseBranch, finishBranchs: flowConfig['release'].finishBranchs });
+let releaseFlow = new Flow({ prefix: mkflowSetting.releasePrefix, flowName: 'release', baseBranch: flowConfig['release'].baseBranch, finishBranchs: flowConfig['release'].finishBranchs });
 let preStableFlow = new Flow({ flowName: 'preStable', baseBranch: flowConfig['preStable'].baseBranch, finishBranchs: flowConfig['preStable'].finishBranchs });
-let hotfixFlow = new Flow({ prefix: mkflowSetting.featurePrefix, flowName: 'hotfix', baseBranch: flowConfig['hotfix'].baseBranch, finishBranchs: flowConfig['hotfix'].finishBranchs });
+let hotfixFlow = new Flow({ prefix: mkflowSetting.hotfixPrefix, flowName: 'hotfix', baseBranch: flowConfig['hotfix'].baseBranch, finishBranchs: flowConfig['hotfix'].finishBranchs });
 
 // detectCommitStatus().then(r => {
 //     console.log(colors.red(r));
