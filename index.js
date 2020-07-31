@@ -212,7 +212,7 @@ function runAction() {
     });
     if (!flowInstance) return;
     /* 没有动作的flow执行list相关flow的分支 */
-    if (['feature', 'hotfix'].includes(flowName)) {
+    if (['feature', 'hotfix', 'release'].includes(flowName)) {
         if (flowName && !actionName) {
             flowInstance.listBranch();
         }
