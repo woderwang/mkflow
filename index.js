@@ -104,6 +104,7 @@ class Flow {
             /* 切换到finish的对象分支 */
             await asyncForEach(this.finishBranchs, async (targetBranch, index) => {
                 await git.checkout([targetBranch]);
+                console.log(colors.blue(`switch branch to ${targetBranch}`));
                 await git.merge([flowBranchName]);
                 console.log(colors.green(`branch:${targetBranch} merge successful`));
             })
