@@ -68,7 +68,7 @@ class Flow {
         this.baseBranch = baseBranch;
         this.finishBranchs = finishBranchs;
     }
-    start = (name) => {
+    start(name) {
         if (['preStable'].includes(this.flowName)) {
             console.log(colors.yellow(`${this.flowName} without start`));
             return;
@@ -87,7 +87,7 @@ class Flow {
             }
         })
     }
-    finish = async (name) => {
+    async finish(name) {
         let flowBranchName = '';
         if (['preStable'].includes(this.flowName)) {
             flowBranchName = mkflowSetting[this.flowName].branch;
@@ -132,7 +132,7 @@ class Flow {
         }
     }
     /* 罗列相关的flow分支 */
-    listBranch = () => {
+    listBranch() {
         let nameReg = new RegExp('^feature-');
         git.branch(['-l']).then(r => {
             const { all } = r;
@@ -149,7 +149,7 @@ class Flow {
         })
     }
     /* 判断branch是否存在 */
-    branchExist = (branchName, isLocal = true) => {
+    branchExist(branchName, isLocal = true) {
         return git.branch([isLocal ? '-l' : '-r']).then(r => {
             const { all } = r;
             let result = false;
@@ -160,7 +160,7 @@ class Flow {
         })
     }
     /* 移除branch */
-    removeBranch = (branchName) => {
+    removeBranch(branchName) {
         return new Promise((resolve, reject) => {
             let result = {};
             this.branchExist(branchName).then(r => {
