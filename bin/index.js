@@ -2,10 +2,11 @@
 const simpleGit = require('simple-git');
 const { argv } = require('yargs');
 const colors = require('colors');
+const pkgConfig = require('../package.json');
 const validFlowNames = ['feature', 'release', 'preStable', 'hotfix'];
 const validActionNames = ['start', 'finish'];
 const starStick = '********';
-console.log(colors.bgGrey(`${starStick}mkflow version:1.0${starStick}`));
+console.log(colors.bgGrey(`${starStick}mkflow version:${pkgConfig.version}${starStick}`));
 // console.log(argv);
 let SimpleGitOptions = {
     baseDir: process.cwd(),

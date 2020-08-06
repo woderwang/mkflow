@@ -1,6 +1,6 @@
 {
   "name": "mkflow",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "custom git flow in own company",
   "main": "index.js",
   "scripts": {
