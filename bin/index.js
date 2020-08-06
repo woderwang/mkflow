@@ -116,7 +116,11 @@ class Flow {
                     merges.forEach(v => {
                         console.log(colors.blue(v));
                     });
+                } else {
+                    console.log(err);
                 }
+            } else {
+                console.log(err);
             }
         }
     }
