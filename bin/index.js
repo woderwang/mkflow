@@ -132,8 +132,9 @@ class Flow {
         }
     }
     /* 罗列相关的flow分支 */
-    listBranch() {
-        let nameReg = new RegExp('^feature-');
+    listBranch(flowName) {
+        if (!flowName) return;
+        let nameReg = new RegExp(`^${flowName}-`);
         git.branch(['-l']).then(r => {
             const { all } = r;
             let branchs = [];
@@ -219,7 +220,7 @@ function runAction() {
     /* 没有动作的flow执行list相关flow的分支 */
     if (['feature', 'hotfix', 'release'].includes(flowName)) {
         if (flowName && !actionName) {
-            flowInstance.listBranch();
+            flowInstance.listBranch(flowName);
         }
         if (flowName && actionName) {
             if (!flowBranchName) {
