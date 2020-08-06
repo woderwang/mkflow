@@ -7,7 +7,9 @@ let SimpleGitOptions = {
 const git = simpleGit(SimpleGitOptions);
 (async function () {
     let resp;
-    resp = await git.status(['-uno']);
+    resp = await git.remote(['update']);
+    console.log(resp);
+    resp = await git.status();
     console.log(resp);
 })();
 /* ******* */
