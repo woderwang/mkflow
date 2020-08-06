@@ -145,7 +145,7 @@ class Flow {
                 }
             })
             if (branchs.length === 0) {
-                console.log(colors.brightBlue('不存在feature相关的分支'));
+                console.log(colors.brightBlue(`不存在${flowName}相关的分支`));
             }
         })
     }
