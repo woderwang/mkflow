@@ -5,9 +5,13 @@ let SimpleGitOptions = {
     maxConcurrentProcesses: 6,
 };
 const git = simpleGit(SimpleGitOptions);
-
+(async function () {
+    let resp;
+    resp = await git.status(['-uno']);
+    console.log(resp);
+})();
 /* ******* */
-git.status(['-uno']).then(e => { console.log(e) });
+
 // git.branch(['-l']).then(e => { console.log(e) });
 // git.checkout(['-b', 'testbranch2']).then(e => { console.log(e) });
 // git.status().then(result => { console.log(result) });
