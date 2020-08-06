@@ -5,7 +5,7 @@ let SimpleGitOptions = {
     maxConcurrentProcesses: 6,
 };
 const git = simpleGit(SimpleGitOptions);
-/* demo block */
+
 /* ******* */
 git.status(['-uno']).then(e => { console.log(e) });
 // git.branch(['-l']).then(e => { console.log(e) });
@@ -18,4 +18,3 @@ git.status(['-uno']).then(e => { console.log(e) });
 // git.merge(['master']).then(e => { console.log(e) });
 // git.branch().then(e => { console.log(e) });
 /* ******* */
-/* demo block end */
