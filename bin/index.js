@@ -101,7 +101,7 @@ class Flow {
                 actionResp = await git.status();
                 if (actionResp && actionResp.behind > 0) {
                     console.log(colors.yellow(`${targetBranch} is out of date,use 'git pull' to fetch latest ref`));
-                    return new Promise.reject(400);
+                    return Promise.reject(400);
                 }
                 /* merge节点分支 */
                 await git.merge([flowBranchName]);
