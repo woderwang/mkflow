@@ -127,6 +127,7 @@ class Flow {
             }
             // console.log(colors.yellow(`finish后目前不会提供自动push的操作，请手动执行push！`));
         } catch (err) {
+            if (!err) return;
             if (err && err.git) {
                 const { merges, result } = err.git;
                 if (merges.length > 0) {
