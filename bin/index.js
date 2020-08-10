@@ -173,7 +173,7 @@ class Flow {
             const { update } = e;
             /* update属性如果为空，标识没有任何更新，意味着push为出现了错误*/
             if (update && Object.keys(update).length > 0) {
-                return false;
+                return true;
             }
         });
     }
