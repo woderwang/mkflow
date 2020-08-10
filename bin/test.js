@@ -24,7 +24,7 @@ new Promise((resolve, reject) => {
 //     console.log(resp);
 // })();
 /* ******* */
-console.log('tags');
+console.log('tags11111');
 // git.branch().then(e => { console.log(e) });
 // git.checkout(['-b', 'testbranch2']).then(e => { console.log(e) });
 // git.status().then(result => { console.log(result) });
