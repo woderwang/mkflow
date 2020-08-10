@@ -170,9 +170,9 @@ class Flow {
     }
     pushBranch(remote, branch) {
         return git.push([remote, branch]).then(e => {
-            const { pushed } = e;
-            /* pushed属性如果为空，标识不存在为commit的内容，可以push */
-            if (pushed.length === 0) {
+            const { update } = e;
+            /* update属性如果为空，标识没有任何更新，意味着push为出现了错误*/
+            if (update && Object.keys(update).length > 0) {
 
             }
         });
