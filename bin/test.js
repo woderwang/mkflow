@@ -16,7 +16,7 @@ git.push().then(e => {
 //     console.log(resp);
 // })();
 /* ******* */
-
+console.log('test');
 // git.branch().then(e => { console.log(e) });
 // git.checkout(['-b', 'testbranch2']).then(e => { console.log(e) });
 // git.status().then(result => { console.log(result) });
