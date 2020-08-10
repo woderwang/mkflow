@@ -107,7 +107,7 @@ class Flow {
                 await git.merge([flowBranchName]);
                 console.log(colors.green(`branch:${targetBranch} merge successful`));
                 /* 目标分支的commit推送到remote */
-                if ([mkflowSetting.preStable.branch, mkflowSetting.stable.branch].includes(targetBranch)) {
+                if ([mkflowSetting.preStable.branch, mkflowSetting.stable.branch, mkflowSetting.develop.branch].includes(targetBranch)) {
                     actionResp = await this.pushBranch(targetBranch);
                     if (actionResp === true) console.log(colors.green(`branch:${targetBranch} push to remote successful`));
                 }
