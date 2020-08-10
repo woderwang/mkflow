@@ -100,18 +100,17 @@ class Flow {
                 /* 查看分支是否最新 */
                 actionResp = await git.status();
                 if (actionResp && actionResp.behind > 0) {
-                    console.log(colors.yellow(`${targetBranch} is out of date,use 'git pull' to fetch latest ref`));
+                    console.log(colors.yellow(`branch:${targetBranch} is out of date,use 'git pull' to fetch latest ref`));
                     return Promise.reject();
                 }
                 /* merge节点分支 */
                 await git.merge([flowBranchName]);
                 console.log(colors.green(`branch:${targetBranch} merge successful`));
-                // if (targetBranch === mkflowSetting.preStable.branch) {
-                /* 打上git tag,目标是*/
-                // }
                 /* 目标分支的commit推送到remote */
-                actionResp = await this.pushBranch(targetBranch);
-                if (actionResp === true) console.log(colors.green(`branch:${targetBranch} push to remote successful`));
+                if ([mkflowSetting.preStable.branch, mkflowSetting.stable.branch].includes(targetBranch)) {
+                    actionResp = await this.pushBranch(targetBranch);
+                    if (actionResp === true) console.log(colors.green(`branch:${targetBranch} push to remote successful`));
+                }
             })
             /* step3-1:preStable无需移除分支，因为长期存在 */
             if (['preStable'].includes(this.flowName)) return;
