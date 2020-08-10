@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const simpleGit = require('simple-git');
+const rs = require('readline-sync');
 const { argv } = require('yargs');
 const colors = require('colors');
 const pkgConfig = require('../package.json');
@@ -76,37 +77,55 @@ class Flow {
         })
     }
     async finish(name) {
-        let flowBranchName = '';
+        let flowBranchName = '', actionResp;
         if (['preStable'].includes(this.flowName)) {
             flowBranchName = mkflowSetting[this.flowName].branch;
         } else {
             flowBranchName = `${this.flowPrefix}${name}`;
         }
         try {
-            /* 检查分支是否存在 */
+            /* 获取最新remote ref */
+            await git.remote(['update']);
+            /* step1:检查分支是否存在 */
             let isExist = await this.branchExist(flowBranchName);
             if (!isExist) {
                 consoe.log(colors.yellow(`${flowBranchName} is not exist`));
                 return;
             }
-            /* 切换到finish的对象分支 */
+            /* step2:切换到finish的对象分支 */
             await asyncForEach(this.finishBranchs, async (targetBranch, index) => {
+                /* 切换到目标分支 */
                 await git.checkout([targetBranch]);
                 console.log(colors.blue(`switch branch to ${targetBranch}`));
+                /* 查看分支是否最新 */
+                actionResp = await git.status();
+                if (actionResp && actionResp.behind > 0) {
+                    consoe.log(colors.yellow(`${targetBranch} is out of date,use 'git pull' to fetch latest ref`));
+                    return new Promise.reject(400);
+                }
+                /* merge节点分支 */
                 await git.merge([flowBranchName]);
                 console.log(colors.green(`branch:${targetBranch} merge successful`));
+                // if (targetBranch === mkflowSetting.preStable.branch) {
+                /* 打上git tag,目标是*/
+                // }
+                /* 目标分支的commit推送到remote */
+                actionResp = await this.pushBranch(targetBranch);
+                if (actionResp === true) console.log(colors.green(`branch:${targetBranch} push to remote successful`));
             })
-            /* preStable无需移除分支，因为长期存在 */
+            /* step3-1:preStable无需移除分支，因为长期存在 */
             if (['preStable'].includes(this.flowName)) return;
-            await git.branch(['-d', flowBranchName]);//remove local branch
+            /* step3-2:remove local branch*/
+            await git.branch(['-d', flowBranchName]);
             console.log(colors.bgCyan(`local branch ${flowBranchName} has been deleted`));
             let remoteIsExist = await this.branchExist(`origin/${flowBranchName}`, false);
             if (remoteIsExist) {
                 console.log(colors.yellow(`remote branch ${flowBranchName} is removing...`));
+                /* step3-2:remove remote branch*/
                 let rmRemoteBranchResult = await git.push(['origin', '--delete', flowBranchName]);
                 console.log(colors.bgCyan(`remove remote branch ${flowBranchName} successful`));
             }
-            console.log(colors.yellow(`finish后目前不会提供自动push的操作，请手动执行push！`));
+            // console.log(colors.yellow(`finish后目前不会提供自动push的操作，请手动执行push！`));
         } catch (err) {
             if (err.git) {
                 const { merges, result } = err.git;
@@ -168,7 +187,7 @@ class Flow {
             })
         });
     }
-    pushBranch(remote, branch) {
+    pushBranch(branch, remote = 'origin') {
         return git.push([remote, branch]).then(e => {
             const { update } = e;
             /* update属性如果为空，标识没有任何更新，意味着push为出现了错误*/
