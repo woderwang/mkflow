@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const simpleGit = require('simple-git');
-const rs = require('readline-sync');
 const { argv } = require('yargs');
 const colors = require('colors');
 const pkgConfig = require('../package.json');
