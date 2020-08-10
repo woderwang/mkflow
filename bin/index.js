@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const simpleGit = require('simple-git');
+const rs = require('readline-sync');
 const { argv } = require('yargs');
 const colors = require('colors');
 const pkgConfig = require('../package.json');
@@ -83,6 +84,8 @@ class Flow {
             flowBranchName = `${this.flowPrefix}${name}`;
         }
         try {
+            /* 获取最新remote ref */
+            await git.remote(['update']);
             /* step1:检查分支是否存在 */
             let isExist = await this.branchExist(flowBranchName);
             if (!isExist) {
@@ -94,9 +97,18 @@ class Flow {
                 /* 切换到目标分支 */
                 await git.checkout([targetBranch]);
                 console.log(colors.blue(`switch branch to ${targetBranch}`));
+                /* 查看分支是否最新 */
+                actionResp = await git.status();
+                if (actionResp && actionResp.behind > 0) {
+                    consoe.log(colors.yellow(`${targetBranch} is out of date,use 'git pull' to fetch latest ref`));
+                    return new Promise.reject(400);
+                }
                 /* merge节点分支 */
                 await git.merge([flowBranchName]);
                 console.log(colors.green(`branch:${targetBranch} merge successful`));
+                // if (targetBranch === mkflowSetting.preStable.branch) {
+                /* 打上git tag,目标是*/
+                // }
                 /* 目标分支的commit推送到remote */
                 actionResp = await this.pushBranch(targetBranch);
                 if (actionResp === true) console.log(colors.green(`branch:${targetBranch} push to remote successful`));

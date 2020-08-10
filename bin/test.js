@@ -1,13 +1,21 @@
 const simpleGit = require('simple-git');
+const readlineSync = require('readline-sync');
 let SimpleGitOptions = {
     baseDir: process.cwd(),
     binary: 'git',
     maxConcurrentProcesses: 6,
 };
 const git = simpleGit(SimpleGitOptions);
-git.push().then(e => {
-    console.log(e);
-}).catch(e => { console.log(e) });
+// let tagName = readlineSync.question('please input the tag name?');
+new Promise((resolve, reject) => {
+    let tagName = readlineSync.question('please input the tag name?');
+    console.log(tagName);
+    resolve(tagName);
+})
+
+// git.push().then(e => {
+//     console.log(e);
+// }).catch(e => { console.log(e) });
 // (async function () {
 //     let resp;
 //     resp = await git.remote(['update']);
