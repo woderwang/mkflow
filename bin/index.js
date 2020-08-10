@@ -167,7 +167,15 @@ class Flow {
                 }
             })
         });
+    }
+    pushBranch(remote, branch) {
+        return git.push([remote, branch]).then(e => {
+            const { pushed } = e;
+            /* pushed属性如果为空，标识不存在为commit的内容，可以push */
+            if (pushed.length === 0) {
 
+            }
+        });
     }
 };
 let featureFlow = new Flow({ prefix: mkflowSetting.featurePrefix, flowName: 'feature', baseBranch: flowConfig['feature'].baseBranch, finishBranchs: flowConfig['feature'].finishBranchs });
