@@ -7,7 +7,7 @@ let SimpleGitOptions = {
 const git = simpleGit(SimpleGitOptions);
 git.push().then(e => {
     console.log(e);
-})
+}).catch(e => { console.log(e) });
 // (async function () {
 //     let resp;
 //     resp = await git.remote(['update']);
