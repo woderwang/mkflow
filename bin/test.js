@@ -35,3 +35,4 @@ console.log('tags11112');
 // git.merge(['master']).then(e => { console.log(e) });
 // git.branch().then(e => { console.log(e) });
 /* ******* */
+/* test1 */
