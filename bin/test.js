@@ -30,24 +30,3 @@ detechConfigFile(process.cwd()).then(filePath => {
     let mkconfig = require(filePath);
     console.log(mkconfig);
 });
-// git.push().then(e => {
-//     console.log(e);
-// }).catch(e => { console.log(e) });
-// (async function () {
-//     let resp;
-//     resp = await git.remote(['update']);
-//     console.log(resp);
-//     resp = await git.status();
-//     console.log(resp);
-// })();
-/* ******* */
-// git.branch().then(e => { console.log(e) });
-// git.checkout(['-b', 'testbranch2']).then(e => { console.log(e) });
-// git.status().then(result => { console.log(result) });
-// git.add('./')
-//     .commit('commit test')
-//     .push();
-// git.merge({ from: 'master' }).then(e => { console.log(e) });
-// git.merge(['master']).then(e => { console.log(e) });
-// git.branch().then(e => { console.log(e) });
-/* ******* */
