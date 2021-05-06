@@ -1,5 +1,8 @@
+const path = require('path');
+const fs = require('fs');
 const simpleGit = require('simple-git');
 const readlineSync = require('readline-sync');
+const fsPromise = fs.promises;
 let SimpleGitOptions = {
     baseDir: process.cwd(),
     binary: 'git',
@@ -12,7 +15,21 @@ new Promise((resolve, reject) => {
     console.log(tagName);
     resolve(tagName);
 })
-
+async function detechConfigFile(thePath) {
+    let configFilePath = path.join(thePath, './mkflow.config.js');
+    let result;
+    try {
+        await fsPromise.access(configFilePath);
+        result = true;
+    } catch (err) {
+        result = false;
+    }
+    return result ? configFilePath : null;
+}
+detechConfigFile(process.cwd()).then(filePath => {
+    let mkconfig = require(filePath);
+    console.log(mkconfig);
+});
 // git.push().then(e => {
 //     console.log(e);
 // }).catch(e => { console.log(e) });
@@ -24,7 +41,6 @@ new Promise((resolve, reject) => {
 //     console.log(resp);
 // })();
 /* ******* */
-console.log('tags11112');
 // git.branch().then(e => { console.log(e) });
 // git.checkout(['-b', 'testbranch2']).then(e => { console.log(e) });
 // git.status().then(result => { console.log(result) });
