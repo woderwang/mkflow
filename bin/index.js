@@ -306,6 +306,7 @@ async function detectConfigFile(thePath) {
     let fileExist = false;
     try {
         await fsPromise.access(configFilePath);
+        console.log(colors.blue('We detected the mkflow config file exists!'));
         fileExist = true;
     } catch (err) {
         fileExist = false;
