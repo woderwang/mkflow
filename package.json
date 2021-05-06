@@ -1,6 +1,6 @@
 {
   "name": "maycur-flow",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "custom git flow in own company",
   "main": "index.js",
   "scripts": {
@@ -21,10 +21,10 @@
   "homepage": "https://github.com/woderwang/mkflow#readme",
   "dependencies": {
     "simple-git": "^2.15.0",
-    "yargs": "^17.0.1"
+    "yargs": "^17.0.1",
+    "colors": "^1.4.0"
   },
-  "devDependencies": {
-    "colors": "^1.4.0",
+  "devDependencies": {    
     "readline-sync": "^1.4.10"
   },
   "bin": {
