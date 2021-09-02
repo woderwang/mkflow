@@ -342,7 +342,7 @@ async function detectConfigFile(thePath) {
         hotfix: {
             baseBranch: 'master',
             finishBranchs: [mkflowSetting.develop.branch, mkflowSetting.preStable.branch, mkflowSetting.stable.branch],
-        }
+        } 
     };
     let featureFlow = new Flow({ prefix: mkflowSetting.featurePrefix, flowName: 'feature', baseBranch: flowConfig['feature'].baseBranch, finishBranchs: flowConfig['feature'].finishBranchs });
     let releaseFlow = new Flow({ prefix: mkflowSetting.releasePrefix, flowName: 'release', baseBranch: flowConfig['release'].baseBranch, finishBranchs: flowConfig['release'].finishBranchs });
