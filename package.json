@@ -1,6 +1,6 @@
 {
   "name": "maycur-flow",
-  "version": "1.1.1",
+  "version": "1.1.1-1",
   "description": "custom git flow in own company",
   "main": "index.js",
   "scripts": {
