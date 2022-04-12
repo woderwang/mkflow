@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/woderwang/mkflow#readme",
   "dependencies": {
-    "simple-git": "^2.15.0",
+    "simple-git": "^3.5.0",
     "yargs": "^17.0.1",
     "colors": "^1.4.0"
   },
